@@ -1,23 +1,16 @@
-function workoutListButton() {
-    var tuesButton = document.createElement("BUTTON"); // Creates a blank button
-    var tuesText = document.createTextNode("Tuesday routine");
-    tuesButton.appendChild(tuesText);
-
-    var wedButton = document.createElement("BUTTON")
-    var wedText = document.createTextNode("Wednesday routine");
-    wedButton.appendChild(wedText);
-
-    var friButton = document.createElement("BUTTON")
-    var friText = document.createTextNode("Friday routine");
-    friButton.appendChild(friText);
-    document.body.appendChild(tuesButton);
-    document.body.appendChild(wedButton);
-    document.body.appendChild(friButton);
+function createSomething(buttonName){ //Hopefully a clock
+    document.querySelector(buttonName).addEventListener('click', alert("WAKE THE FUCK UP"));
 }
 
-function workoutList(){
-    document.getElementById("dropDownTest").classList.toggle("show");
+function tuesdayWorkout() {
+    document.getElementById("tuesWorkout").addEventListener('click', 
+    function() {
+    alert('Button was clicked!');}
+);;
+
 }
+
+
 
 console.log("Hello world"); //Success
-workoutListButton();
+tuesdayWorkout();
