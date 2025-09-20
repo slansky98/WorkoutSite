@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body>
     <h1>Welcome to Sam's Workout Site</h1>
@@ -15,6 +16,19 @@
 
     <p>Workout to do:</p>
     <div id="workoutDisplay"></div>
+
+    <h1 id = "myH1">Stopwatch</h1>
+
+    <div id = "container">
+        <div id = "display">
+            00:00:00
+        </div>
+        <div id = "controls">
+            <button id = "startBtn" onClick="start()">Start</button>
+            <button id = "stopBtn" onClick="stop()">Stop</button>
+            <button id = "resetBtn" onClick="reset()">Reset</button>
+        </div>
+    </div>
     
     <script src="../HTML/index.js"></script>
 </body>
