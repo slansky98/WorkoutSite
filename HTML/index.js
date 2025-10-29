@@ -54,10 +54,10 @@ function updateTime(){
     // Trigger a visual alert/sound at 5 sec, 4 sec, 3 sec, 2 sec, 1 sec etc
     if ((parseInt(seconds) % 5 == 1 && milliseconds == '00') & parseInt(seconds) != 0) { // This condition triggers a sound every 5 seconds.
             let audio = document.getElementById("alertSound");
-            for (let i = 0; i <=5; i++){
+            for (let i = 1; i <=20; i++){ // Pings the sound 5 times
                 setTimeout(() => {
                 audio.play();
-            }, i * 1000);
+            }, i * 50);
         }    
     }
 }
