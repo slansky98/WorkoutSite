@@ -1,18 +1,5 @@
-function displayWorkout(buttonName, exercises) {
-    const workoutDisplay = document.getElementById("workoutDisplay");
-    document.getElementById(buttonName).addEventListener('click', 
-    function(){
-        workoutDisplay.innerHTML = ""; // Clear previous content
-        var ul = document.createElement("ul");
-        for (let i = 0; i < exercises.length; i++) {
-            var li = document.createElement("li");
-            li.textContent = exercises[i];
-            ul.appendChild(li);  
-        }
-        workoutDisplay.appendChild(ul);
-    });
-    
-}
+
+// Watch section
 
 const display = document.getElementById("display");
 let timer = null;
@@ -23,9 +10,8 @@ let isRunning = false;
 function start(){
     if(!isRunning){
         startTime = Date.now() - elapsedTime;
-        timer = setInterval(update, 10);
+        timer = setInterval(updateTime, 0);
         isRunning = true;
-
     }
 
 }
@@ -48,7 +34,7 @@ function reset(){
     display.textContent = "00:00:00:00";
 }
 
-function update(){
+function updateTime(){
     const currentTime = Date.now();
     elapsedTime = currentTime - startTime;
 
@@ -63,8 +49,39 @@ function update(){
     milliseconds = String(milliseconds).padStart(2, '0');
 
     display.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
+    console.log(typeof(seconds));
+    // To do: 
+    // Trigger a visual alert/sound at 5 sec, 4 sec, 3 sec, 2 sec, 1 sec etc
+    if ((parseInt(seconds) % 5 == 1 && milliseconds == '00') & parseInt(seconds) != 0) { // This condition triggers a sound every 5 seconds.
+            let audio = document.getElementById("alertSound");
+            for (let i = 0; i <=5; i++){
+                setTimeout(() => {
+                audio.play();
+            }, i * 1000);
+        }    
+    }
 }
 
+function alertMessage(){
+
+}
+// Workout section
+
+function displayWorkout(buttonName, exercises) {
+    const workoutDisplay = document.getElementById("workoutDisplay");
+    document.getElementById(buttonName).addEventListener('click', 
+    function(){
+        workoutDisplay.innerHTML = ""; // Clear previous content
+        var ul = document.createElement("ul");
+        for (let i = 0; i < exercises.length; i++) {
+            var li = document.createElement("li");
+            li.textContent = exercises[i];
+            ul.appendChild(li);  
+        }
+        workoutDisplay.appendChild(ul);
+    });
+    
+}
 console.log("Hello world"); //Success
 tuesdayExercises = [
     "Pushups - 45 seconds",
