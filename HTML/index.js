@@ -6,6 +6,7 @@ let timer = null;
 let startTime = 0;
 let elapsedTime = 0;
 let isRunning = false;
+let workoutChoice = "";
 
 function start(){
     if(!isRunning){
@@ -32,6 +33,7 @@ function reset(){
     elapsedTime = 0;
     isRunning = false;
     display.textContent = "00:00:00:00";
+    timeRemaining.textContent = "";
 }
 
 function updateTime(){
@@ -49,20 +51,40 @@ function updateTime(){
     milliseconds = String(milliseconds).padStart(2, '0');
 
     display.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
-    console.log(typeof(seconds));
-    // To do: 
+    console.log(seconds);
+    
+    
     // Trigger a visual alert/sound at 5 sec, 4 sec, 3 sec, 2 sec, 1 sec etc
-    if ((parseInt(seconds) % 5 == 1 && milliseconds == '00') & parseInt(seconds) != 0) { // This condition triggers a sound every 5 seconds.
-            let audio = document.getElementById("alertSound");
-            for (let i = 1; i <=20; i++){ // Pings the sound 5 times
-                setTimeout(() => {
-                audio.play();
-            }, i * 50);
-        }    
+    if ((parseInt(seconds) % 10 == 0 && milliseconds == '00') & parseInt(seconds) != 0) { // This condition triggers a sound every 20 seconds.
+        let audio = document.getElementById("alertSound");
+        let timeRemaining = document.getElementById("timeRemaining");
+        for (let i = 0; i <= 5; i++){
+            setTimeout(function(){
+            countdown(i);
+                }, i * 1000);
+            }   
+            timeRemaining.textContent = "";
+        }
+    }
+
+
+
+
+
+
+
+function countdown(i){
+    timeRemaining.textContent = "Break in: " + (5 - i) + " second(s)";
+    let audio = document.getElementById("alertSound")
+    audio.play();
+    if (i == 5){
+        timeRemaining.textContent = ""
     }
 }
-
-function alertMessage(){
+function showWorkout(exercises){
+        workoutChoice = exercises[0];
+        const exerciseDisplay = document.getElementById("exerciseDisplay");
+        exerciseDisplay.textContent = "Current Workout: " + workoutChoice;
 
 }
 // Workout section
