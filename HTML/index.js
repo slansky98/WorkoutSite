@@ -2,17 +2,22 @@
 // Watch section
 
 const display = document.getElementById("display");
+const exerciseDisplay = document.getElementById("exerciseDisplay");
 let timer = null;
 let startTime = 0;
 let elapsedTime = 0;
 let isRunning = false;
-let workoutChoice = "";
+let exerciseChoice = "";
 
 function start(){
-    if(!isRunning){
+    if(!isRunning && exerciseChoice != ""){
         startTime = Date.now() - elapsedTime;
         timer = setInterval(updateTime, 0);
         isRunning = true;
+        exerciseDisplay.textContent = ("Current Workout: " + exerciseChoice[0]);
+    }
+    else if (exerciseChoice == ""){
+        alert("Please select a workout first!");
     }
 
 }
@@ -51,9 +56,8 @@ function updateTime(){
     milliseconds = String(milliseconds).padStart(2, '0');
 
     display.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
-    console.log(seconds);
     
-    
+
     // Trigger a visual alert/sound at 5 sec, 4 sec, 3 sec, 2 sec, 1 sec etc
     if ((parseInt(seconds) % 10 == 0 && milliseconds == '00') & parseInt(seconds) != 0) { // This condition triggers a sound every 20 seconds.
         let audio = document.getElementById("alertSound");
@@ -65,11 +69,7 @@ function updateTime(){
             }   
             timeRemaining.textContent = "";
         }
-    }
-
-
-
-
+}
 
 
 
@@ -81,52 +81,70 @@ function countdown(i){
         timeRemaining.textContent = ""
     }
 }
-function showWorkout(exercises){
-        workoutChoice = exercises[0];
-        const exerciseDisplay = document.getElementById("exerciseDisplay");
-        exerciseDisplay.textContent = "Current Workout: " + workoutChoice;
-
-}
 // Workout section
 
-function displayWorkout(buttonName, exercises) {
+
+
+function displayWork(exercises){
     const workoutDisplay = document.getElementById("workoutDisplay");
-    document.getElementById(buttonName).addEventListener('click', 
-    function(){
-        workoutDisplay.innerHTML = ""; // Clear previous content
-        var ul = document.createElement("ul");
-        for (let i = 0; i < exercises.length; i++) {
-            var li = document.createElement("li");
-            li.textContent = exercises[i];
-            ul.appendChild(li);  
-        }
-        workoutDisplay.appendChild(ul);
+    workoutDisplay.innerHTML = ""; // Clear previous content
+    var ul = document.createElement("ul");
+    for (let i = 0; i < exercises.length; i++) {
+        var li = document.createElement("li");
+        li.textContent = exercises[i];
+        ul.appendChild(li);  
+    }
+    workoutDisplay.appendChild(ul);
+    exerciseChoice = exercises;
+}
+
+function workoutButton(buttonName, exercise) {
+    const workoutDisplay = document.getElementById("workoutDisplay");
+    document.getElementById(buttonName).addEventListener('click', function(){
+        displayWork(exercise);
     });
     
 }
-console.log("Hello world"); //Success
-tuesdayExercises = [
-    "Pushups - 45 seconds",
-    "Squats Knee Drive - 45 seconds",
-    "Glute bridge - 45 seconds",
-    "Superman - 45 seconds",
-    "Plank shoulder taps - 45 seconds"
-];
-wednesdayExercises = [
-    "Jump squats - 40 seconds",
-    "Mountain climbers - 40 seconds",
-    "Plank to downward dog - 40 seconds",
-    "Lunges - 40 seconds",
-    "Hollow hold - 40 seconds"
-];
-fridayExercises = [
-    "Inchworm walkout to pushup - 45 seconds",
-    "Reverse lunge to knee drive - 45 seconds",
-    "Side plank (swap sides at 23 seconds) - 45 seconds",
-    "Bear crawl forward and backward - 45 seconds",
-    "Squat pulse to jump (3 mini pulses, 1 jump) - 45 seconds"
-];
 
-displayWorkout("tuesWorkout", tuesdayExercises);
-displayWorkout("wedWorkout", wednesdayExercises);
-displayWorkout("friWorkout", fridayExercises);
+function showExercise(exercise){
+    const exerciseDisplay = document.getElementById("exerciseDisplay");
+    for (let i = 0; i < exercise.length; i++){
+        setTimeout(function(){
+            exerciseDisplay.textContent = "Current Workout: " + exercise[i];
+        }, i * 45000); // Change exercise every 45 seconds
+    }
+}
+console.log("Hello world"); //Success
+
+function main(){
+    tuesdayExercises = [
+        "Pushups - 45 seconds",
+        "Squats Knee Drive - 45 seconds",
+        "Glute bridge - 45 seconds",
+        "Superman - 45 seconds",
+        "Plank shoulder taps - 45 seconds"
+    ];
+    wednesdayExercises = [
+        "Jump squats - 40 seconds",
+        "Mountain climbers - 40 seconds",
+        "Plank to downward dog - 40 seconds",
+        "Lunges - 40 seconds",
+        "Hollow hold - 40 seconds"
+    ];
+    fridayExercises = [
+        "Inchworm walkout to pushup - 45 seconds",
+        "Reverse lunge to knee drive - 45 seconds",
+        "Side plank (swap sides at 23 seconds) - 45 seconds",
+        "Bear crawl forward and backward - 45 seconds",
+        "Squat pulse to jump (3 mini pulses, 1 jump) - 45 seconds"
+    ];
+    workoutButton("tuesWorkout", tuesdayExercises);
+    workoutButton("wedWorkout", wednesdayExercises);
+    workoutButton("friWorkout", fridayExercises);
+
+
+    
+}
+
+
+main();
