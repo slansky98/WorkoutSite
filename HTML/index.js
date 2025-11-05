@@ -8,13 +8,17 @@ let startTime = 0;
 let elapsedTime = 0;
 let isRunning = false;
 let exerciseChoice = "";
+let exerciseNumber = 0;
+let test = 0;
+let lastUpdateTime = 0;
 
 function start(){
     if(!isRunning && exerciseChoice != ""){
         startTime = Date.now() - elapsedTime;
-        timer = setInterval(updateTime, 0);
+        timer = setInterval(updateTime, 10);
         isRunning = true;
-        exerciseDisplay.textContent = ("Current Workout: " + exerciseChoice[0]);
+        exerciseDisplay.textContent = ("Current Workout: " + exerciseChoice[exerciseNumber]);
+        exerciseNumber++;
     }
     else if (exerciseChoice == ""){
         alert("Please select a workout first!");
@@ -58,8 +62,12 @@ function updateTime(){
     display.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
     
 
-    // Trigger a visual alert/sound at 5 sec, 4 sec, 3 sec, 2 sec, 1 sec etc
-    if ((parseInt(seconds) % 10 == 0 && milliseconds == '00') & parseInt(seconds) != 0) { // This condition triggers a sound every 20 seconds.
+    
+
+    // Trigger a visual alert/sound; 5 second countdown; at 10 seconds sec
+    const currentSecond = Math.floor(elapsedTime / 1000);
+    if (currentSecond % 10 === 0 && currentSecond !== 0 && currentSecond !== lastUpdateTime) {
+        lastUpdateTime = currentSecond;
         let audio = document.getElementById("alertSound");
         let timeRemaining = document.getElementById("timeRemaining");
         for (let i = 0; i <= 5; i++){
@@ -67,11 +75,24 @@ function updateTime(){
             countdown(i);
                 }, i * 1000);
             }   
-            timeRemaining.textContent = "";
+        timeRemaining.textContent = "";
+    }
+    // Trigger exercise change every 15 seconds
+    if((parseInt(seconds) % 15 == 0 && milliseconds == '00') && parseInt(seconds) != 0){
+        showCurrentExercise(exerciseChoice);
+        exerciseNumber++;
+        if (exerciseNumber >= exerciseChoice.length){
+            exerciseNumber = 0;
         }
+    }
 }
 
 
+function showCurrentExercise(exerciseChoice){
+    const exerciseDisplay = document.getElementById("exerciseDisplay");
+    exerciseDisplay.textContent = "Current Workout: " + exerciseChoice[exerciseNumber];
+    console.log("New ExerciseNumber: " + exerciseNumber);
+}
 
 function countdown(i){
     timeRemaining.textContent = "Break in: " + (5 - i) + " second(s)";
@@ -106,14 +127,7 @@ function workoutButton(buttonName, exercise) {
     
 }
 
-function showExercise(exercise){
-    const exerciseDisplay = document.getElementById("exerciseDisplay");
-    for (let i = 0; i < exercise.length; i++){
-        setTimeout(function(){
-            exerciseDisplay.textContent = "Current Workout: " + exercise[i];
-        }, i * 45000); // Change exercise every 45 seconds
-    }
-}
+
 console.log("Hello world"); //Success
 
 function main(){
