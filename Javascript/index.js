@@ -11,13 +11,17 @@ let exerciseChoice = "";
 let exerciseNumber = 0;
 let test = 0;
 let lastUpdateTime = 0;
+let workoutDuration = 0;
+let workoutStartTime = 0; // Track when current exercise started
 
 function start(){
     if(!isRunning && exerciseChoice != ""){
         startTime = Date.now() - elapsedTime;
+        workoutStartTime = 0; // Reset workout timer
         timer = setInterval(updateTime, 10);
         isRunning = true;
         exerciseDisplay.textContent = ("Current Workout: " + exerciseChoice[exerciseNumber]);
+        getWorkoutDuration(exerciseChoice);
         exerciseNumber++;
     }
     else if (exerciseChoice == ""){
@@ -61,13 +65,13 @@ function updateTime(){
 
     display.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
     
+    // Calculate exercise elapsed time once for use throughout the function
+    const exerciseElapsedTime = elapsedTime - workoutStartTime;
+    const exerciseSeconds = Math.floor(exerciseElapsedTime / 1000);
 
-    
-
-    // Trigger a visual alert/sound; 5 second countdown; at 10 seconds sec
-    const currentSecond = Math.floor(elapsedTime / 1000);
-    if (currentSecond % 10 === 0 && currentSecond !== 0 && currentSecond !== lastUpdateTime) {
-        lastUpdateTime = currentSecond;
+    // Trigger a visual alert/sound; 5 second countdown before WorkoutDuration is up
+    if (exerciseSeconds > 0 && exerciseSeconds === (workoutDuration - 5) && exerciseSeconds !== lastUpdateTime) {
+        lastUpdateTime = exerciseSeconds;
         let audio = document.getElementById("alertSound");
         let timeRemaining = document.getElementById("timeRemaining");
         for (let i = 0; i <= 5; i++){
@@ -77,13 +81,16 @@ function updateTime(){
             }   
         timeRemaining.textContent = "";
     }
-    // Trigger exercise change every 15 seconds
-    if((parseInt(seconds) % 15 == 0 && milliseconds == '00') && parseInt(seconds) != 0){
+    // Trigger exercise change every workoutDuration seconds
+    if(exerciseSeconds > 0 && exerciseSeconds === workoutDuration){
+        workoutStartTime = elapsedTime; // Reset workout timer for next exercise
+        getWorkoutDuration(exerciseChoice);
         showCurrentExercise(exerciseChoice);
+        console.log("Workout Duration: " + workoutDuration);
         exerciseNumber++;
         if (exerciseNumber >= exerciseChoice.length){
             exerciseNumber = 0;
-        }
+        }  
     }
 }
 
@@ -104,7 +111,10 @@ function countdown(i){
 }
 // Workout section
 
-
+//Get workout duration gets how long you should be doing the exercise for. Used for the timer to determine when to switch workouts.
+function getWorkoutDuration(exerciseChoice){
+    workoutDuration =  parseInt(exerciseChoice[exerciseNumber].split("-")[1].split(" ")[1]);
+}
 
 function displayWork(exercises){
     const workoutDisplay = document.getElementById("workoutDisplay");
@@ -128,14 +138,17 @@ function workoutButton(buttonName, exercise) {
 }
 
 
+
+
+
 console.log("Hello world"); //Success
 
 function main(){
     tuesdayExercises = [
-        "Pushups - 45 seconds",
-        "Squats Knee Drive - 45 seconds",
-        "Glute bridge - 45 seconds",
-        "Superman - 45 seconds",
+        "Pushups - 10 seconds",
+        "Squats Knee Drive - 15 seconds",
+        "Glute bridge - 10 seconds",
+        "Superman - 20 seconds",
         "Plank shoulder taps - 45 seconds"
     ];
     wednesdayExercises = [
