@@ -13,6 +13,7 @@ let test = 0;
 let lastUpdateTime = 0;
 let workoutDuration = 0;
 let workoutStartTime = 0; // Track when current exercise started
+let breakDuration = 0; //How long the break is between exercises
 
 function start(){
     if(!isRunning && exerciseChoice != ""){
@@ -65,7 +66,6 @@ function updateTime(){
 
     display.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
     
-    // Calculate exercise elapsed time once for use throughout the function
     const exerciseElapsedTime = elapsedTime - workoutStartTime;
     const exerciseSeconds = Math.floor(exerciseElapsedTime / 1000);
 
@@ -127,13 +127,28 @@ function displayWork(exercises){
     }
     workoutDisplay.appendChild(ul);
     exerciseChoice = exercises;
+
 }
 
+function breakTime(){
+    const breakDisplay = document.getElementById("BreakTime");
+    breakDuration = document.getElementById("breakInput").value;
+    breakDisplay.textContent = "Break Time for " + breakDuration + " seconds.";
+}
+
+function resetBreakTime(){
+    const breakForm = document.getElementById("BreakTime");
+    breakForm.reset();
+    breakForm.innerHTML = `<input type="number" id="breakInput" placeholder="Break time in seconds">
+    <input type="button" value="Set Break Time" onclick="breakTime()">`;
+    breakDuration = 0;
+}
 function workoutButton(buttonName, exercise) {
     const workoutDisplay = document.getElementById("workoutDisplay");
     document.getElementById(buttonName).addEventListener('click', function(){
         displayWork(exercise);
     });
+
     
 }
 

@@ -10,14 +10,17 @@
     <h1>Welcome to Sam's Workout Site</h1>
 
     <p>Please select which exercise you'd like to do</p>
-    <button id="tuesWorkout">Tuesday Workout</button>
-    <button id="wedWorkout">Wednesday Workout</button>
-    <button id="friWorkout">Friday Workout</button>
+    <button id="tuesWorkout" onClick="resetBreakTime()">Tuesday Workout</button>
+    <button id="wedWorkout" onClick="resetBreakTime()">Wednesday Workout</button>
+    <button id="friWorkout" onClick="resetBreakTime()">Friday Workout</button>
 
     <p>Workout to do:</p>
     <div id="workoutDisplay"></div>
-
-    <h1 id = "exerciseDisplay">"Insert workout here"</h1>
+    <form id ="BreakTime" onsubmit="return false;">
+        <input type="number" id="breakInput" placeholder="Break time in seconds">
+        <input type="button" value="Set Break Time" onclick="breakTime()">
+    </form>
+    <h1 id = "exerciseDisplay"></h1>
     <h2 id = "timeRemaining"></h2>
     <div id = 'alert'>
         <audio id="alertSound" src="../Files/ping.mp3"></audio>
